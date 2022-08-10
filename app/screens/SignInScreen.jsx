@@ -1,148 +1,85 @@
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import { Button, Input, Image } from "react-native-elements";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
-// import { Linking } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "../config/firebase";
 
-const auth = getAuth();
+const logo = require("../assets/got-next-logo.png");
 
-function SignInScreen({navigation}) {
+const LoginScreen = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const auth = getAuth();
 
-  const [value, setValue] = React.useState({
-    email: "",
-    password: "",
-    error: "",
-  });
-
-  async function signIn() {
-    if (value.email === "" || value.password === "") {
-      setValue({
-        ...value,
-        error: "Email and password are mandatory.",
-      });
-      return;
-    }
-
-    try {
-      await signInWithEmailAndPassword(auth, value.email, value.password);
-      navigation.navigate("Sign In");
-    } catch (error) {
-      setValue({
-        ...value,
-        error: error.message,
-      });
-    }
-  }
+  const signIn = () => {
+    signInWithEmailAndPassword(auth, email, password).catch((error) =>
+      console.log(error.message)
+    );
+  };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Sign In</Text>
-
-      {!!value.error && (
-        <View style={styles.error}>
-          <Text>{value.error}</Text>
-        </View>
-      )}
-
-      <View style={styles.controls}>
-        <View style={styles.inputSection}>
-          <FontAwesome
-            style={styles.inputIcon}
-            name="envelope"
-            size={16}
-            color="black"
-          />
-          <TextInput
-            placeholder="Email"
-            style={styles.input}
-            value={value.email}
-            onChangeText={(text) => setValue({ ...value, email: text })}
-          />
-        </View>
-        <View style={styles.inputSection}>
-          <FontAwesome
-            style={styles.inputIcon}
-            name="key"
-            size={16}
-            color="black"
-          />
-          <TextInput
-            placeholder="Password"
-            style={styles.input}
-            value={value.password}
-            onChangeText={(text) => setValue({ ...value, password: text })}
-            secureTextEntry={true}
-          />
-        </View>
-        <Text
-          style={{ color: "blue", textAlign: "center", fontSize: 16 }}
-          onPress={() => navigation.navigate("Sign Up")}
-        >
-          No Account? Sign up here.
-        </Text>
-        <View style={styles.control}>
-          <Button title="Sign in" onPress={signIn} backgroundColor="#fc5603" color="white"/>
-        </View>
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <StatusBar style="light" />
+      <Image source={logo} style={styles.ImageDimension} />
+      <View style={styles.inputContainer}>
+        <Input
+          placeholder="Email"
+          autoFocus
+          type="email"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+        <Input
+          placeholder="Password"
+          secureTextEntry
+          type="password"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          onSubmitEditing={signIn}
+        />
       </View>
-    </View>
+
+      <Button
+        containerStyle={styles.button}
+        onPress={signIn}
+        title="Login"
+      />
+      <Button
+        containerStyle={styles.button}
+        onPress={() => navigation.navigate("Register")}
+        type="outline"
+        title="Register"
+      />
+      <View style={{ height: 100 }} />
+    </KeyboardAvoidingView>
   );
 };
 
+export default LoginScreen;
+
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 24,
+  ImageDimension: {
+    width: 210,
+    height: 30,
     marginBottom: 30,
+  },
+  inputContainer: {
+    width: 300,
+    marginVertical: 10,
+  },
+  button: {
+    width: 200,
+    marginTop: 10,
   },
   container: {
     flex: 1,
-    paddingTop: 200,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 18,
-  },
-  controls: {
-    flex: 1,
-  },
-  control: {
-    marginTop: 20,
-    width: 350,
-    backgroundColor: "#fc5603",
-    alignItems: "center",
-    fontSize: 18,
-    alignSelf: "center",
-  },
-  inputSection: {
-    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "grey",
-    margin: 10,
-    width: 350,
-    fontSize: 18,
-  },
-  inputIcon: {
     padding: 10,
-  },
-  input: {
-    flex: 1,
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 0,
-    backgroundColor: "#fff",
-    color: "#424242",
-    fontSize: 18,
-  },
-  error: {
-    marginTop: 10,
-    padding: 10,
-    color: "#fff",
-    backgroundColor: "#D54826FF",
+    backgroundColor: "white",
   },
 });
-
-export default SignInScreen;

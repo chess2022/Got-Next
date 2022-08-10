@@ -5,6 +5,7 @@ import AccountScreen from "../screens/AccountScreen";
 import ChatStack from "./ChatStack";
 import { View, Text } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import ChatHomeScreen from "../screens/Chat/ChatHomeScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,6 +33,7 @@ const Tabs = () => {
           shadowRadius: 3.5,
           elevation: 5,
         },
+        headerShown: false,
       }}
     >
       <Tab.Screen
