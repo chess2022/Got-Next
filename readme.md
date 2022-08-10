@@ -55,7 +55,7 @@ ChatStack-->ChatDetail
 ## User Interface Mockups
 
 #### Main Page
-![Home](/app/assets/gotNext_Home.png)
+![Home](/app/assets/gotNext_home.png)
 ![Login](/app/assets/gotNext_login.png)
 ![PUG Screen](/app/assets/gotNext_map.png)
 
