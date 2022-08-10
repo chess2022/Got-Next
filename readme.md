@@ -16,9 +16,8 @@ List of stories users should experience when using your application.
 - As a user, I can enter a location and find nearby basketball courts.
 - As a user, I can get directions to a nearby court.
 - As a user, I can signup/login to access content.
-- As a user, I can join local message boards.
-- As a user, I can post on message boards to organize a game or chat.
-- As a user, I can update or delete my postings on the message boards.
+- As a user, I can chat with friends through the app to organize a game.
+- As a user, I can have multiple chat topics to chat with different groups.
 - As a user, I can logout.
 - As a user, I can delete my account.
 
@@ -56,7 +55,9 @@ ChatStack-->ChatDetail
 ## User Interface Mockups
 
 #### Main Page
-![Home](/app/assets/main.png)
+![Home](/app/assets/gotNext_Home.png)
+![Login](/app/assets/gotNext_login.png)
+![PUG Screen](/app/assets/gotNext_map.png)
 
 
 
