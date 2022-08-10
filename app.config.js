@@ -42,6 +42,7 @@ export default {
       firebaseMessagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
       firebaseAppId: process.env.FIREBASE_APP_ID,
       googleApiKey: process.env.GOOGLE_API_KEY,
+      firebaseMeasurementId: process.env.FIREBASE_MEASUREMENT_ID,
     },
   },
 };
