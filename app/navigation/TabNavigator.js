@@ -2,13 +2,9 @@ import { StatusBar } from "expo-status-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FindPugScreen from "../screens/FindPugScreen";
 import AccountScreen from "../screens/AccountScreen";
-import ChatHomeScreen from "../screens/Chat/ChatHomeScreen";
-// import GoogleMap from "../screens/Map/GoogleMap";
+import ChatStack from "./ChatStack";
 import { View, Text } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-// import { useAuthentication } from "../utils/hooks/useAuthentication";
-
-// const { user } = useAuthentication();
 
 const Tab = createBottomTabNavigator();
 
@@ -83,8 +79,8 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Chat"
-        component={ChatHomeScreen}
+        name="Got Next"
+        component={ChatStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

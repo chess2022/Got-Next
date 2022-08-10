@@ -44,11 +44,13 @@ Index-->UserStack
 AuthStack-->Welcome
 AuthStack-->SignIn
 AuthStack-->SignUp
-UserStack-->FindPUGs
-FindPUGs-->GoogleMapsAPI
-FindPUGs-->Account
-FindPUGs-->ChatChannels
-ChatChannels-->ChatRoom
+UserStack-->TabBarNav
+TabBarNav-->FindPUGs
+TabBarNav-->Account
+TabBarNav-->ChatStack
+ChatStack-->ChatHome
+ChatStack-->AddChat
+ChatStack-->ChatDetail
 ```
 
 ## User Interface Mockups

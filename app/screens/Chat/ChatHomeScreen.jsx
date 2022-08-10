@@ -5,7 +5,6 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity } fr
 import { Avatar } from 'react-native-elements'
 import CustomListItem from '../components/CustomListItem'
 import { getAuth, signOut, collection, getFirestore, onSnapshot } from '../../config/firebase'
-// import { getDatabase } from 'firebase/database'
 
 const ChatHomeScreen = ({ navigation }) => {
   const [chats, setChats] = useState([])
@@ -13,7 +12,7 @@ const ChatHomeScreen = ({ navigation }) => {
   const db = getFirestore()
   
   const signOutUser = () => {
-    signOut(auth).then(() => navigation.navigate('AuthStack'))
+    signOut(auth)
   }
 
   useEffect(
@@ -23,15 +22,24 @@ const ChatHomeScreen = ({ navigation }) => {
       }),
     []
   )
-
+  
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: 'Chat',
-      headerStyle: { backgroundColor: 'white' },
-      headerTitleStyle: { color: 'black' },
-      headerTintColor: 'black',
+      title: "Chat",
+      // headerStyle: { backgroundColor: 'white' },
+      headerTitleStyle: { color: "black" },
+      headerTintColor: "black",
+      headerStyle: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+      },
       headerLeft: () => (
-        <View style={{ marginLeft: 20 }}>
+        <View
+          style={{
+            justifyContent: "flex-start",
+            backgroundColor: "white",
+          }}
+        >
           <TouchableOpacity activeOpacity={0.5}>
             <Avatar rounded source={{ uri: auth?.currentUser?.photoURL }} />
           </TouchableOpacity>
@@ -42,32 +50,34 @@ const ChatHomeScreen = ({ navigation }) => {
           style={{
             marginRight: 20,
             width: 120,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            backgroundColor: 'white'
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            backgroundColor: "white",
           }}
         >
-          <TouchableOpacity activeOpacity={0.5}>
-            <SimpleLineIcons name="camera" size={18} color="black" />
-          </TouchableOpacity>
-
           <TouchableOpacity
             activeOpacity={0.5}
-            onPress={() => navigation.navigate('ChatStack', {screen: 'AddChat'})}
+            onPress={() => navigation.replace("AddChatScreen")}
           >
             <SimpleLineIcons name="pencil" size={18} color="black" />
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.5} onPress={signOutUser}>
+          <TouchableOpacity
+            style={{
+              marginLeft: 30,
+            }}
+            activeOpacity={0.5}
+            onPress={signOutUser}
+          >
             <SimpleLineIcons name="logout" size={18} color="black" />
           </TouchableOpacity>
         </View>
       ),
-    })
+    });
   }, [navigation])
 
   const enterChat = (id, chatName) => {
-    navigation.navigate('Chat', {
+    navigation.navigate('ChatDetailScreen', {
       id,
       chatName,
     })

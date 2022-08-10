@@ -26,7 +26,7 @@ const AddChatScreen = ({ navigation }) => {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <Input
-        placeholder="Enter a chat name"
+        placeholder="Enter a chat topic"
         value={chat}
         onChangeText={(text) => setChat(text)}
         onSubmitEditing={createChat}

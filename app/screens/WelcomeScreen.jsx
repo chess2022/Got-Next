@@ -8,7 +8,6 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-// import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 function WelcomeScreen({ navigation }) {
   return (
