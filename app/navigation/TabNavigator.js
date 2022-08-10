@@ -1,0 +1,111 @@
+import { StatusBar } from "expo-status-bar";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import FindPugScreen from "../screens/FindPugScreen";
+import AccountScreen from "../screens/AccountScreen";
+import UserBoardsScreen from "../screens/Chat/UserBoardsScreen";
+// import GoogleMap from "../screens/Map/GoogleMap";
+import { View, Text } from "react-native";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+// import { useAuthentication } from "../utils/hooks/useAuthentication";
+
+// const { user } = useAuthentication();
+
+const Tab = createBottomTabNavigator();
+
+const Tabs = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          flexDirection: "row",
+          position: "absolute",
+          bottom: 25,
+          left: 20,
+          right: 20,
+          elevation: 0,
+          backgroundColor: "#fff",
+          borderRadius: 15,
+          height: 90,
+          shadowColor: "grey",
+          shadowOffset: {
+            width: 0,
+            height: 10,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.5,
+          elevation: 5,
+        },
+      }}
+    >
+      <Tab.Screen
+        name="Pick-up Games"
+        component={FindPugScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                top: 10,
+              }}
+            >
+              <View style={{ width: 30, height: 30 }}>
+                <Ionicons name="basketball" size={32} color="black" />
+              </View>
+              <Text style={{ color: focused ? "#fc5603" : "#748c94" }}>
+                PUGs
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Account"
+        component={AccountScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                top: 10,
+              }}
+            >
+              <View style={{ width: 30, height: 30 }}>
+                <FontAwesome name="user" size={28} color="black" />
+              </View>
+              <Text style={{ color: focused ? "#fc5603" : "#748c94" }}>
+                ACCOUNT
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Chat"
+        component={UserBoardsScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                top: 10,
+              }}
+            >
+              <View style={{ width: 30, height: 30 }}>
+                <Ionicons name="chatbox" size={26} color="black" />
+              </View>
+              <Text style={{ color: focused ? "#fc5603" : "#748c94" }}>
+                CHAT
+              </Text>
+            </View>
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+export default Tabs;
