@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FindPugScreen from "../screens/FindPugScreen";
 import AccountScreen from "../screens/AccountScreen";
-import UserBoardsScreen from "../screens/Chat/UserBoardsScreen";
+import ChatHomeScreen from "../screens/Chat/ChatHomeScreen";
 // import GoogleMap from "../screens/Map/GoogleMap";
 import { View, Text } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
@@ -84,7 +84,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Chat"
-        component={UserBoardsScreen}
+        component={ChatHomeScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
