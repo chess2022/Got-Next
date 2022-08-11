@@ -126,7 +126,7 @@ function ChatDetailScreen({ navigation, route }) {
                     </View>
                   </View>
                 ) : (
-                  <View key={message.id} style={{ alignItems: "flex-start" }}>
+                  <View key={message.id} style={{ flexDirection: "column" }}>
                     <View style={styles.sender}>
                       <Avatar
                         rounded

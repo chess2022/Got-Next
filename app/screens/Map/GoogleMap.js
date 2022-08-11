@@ -2,16 +2,13 @@ import React, { Component } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 // import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import PlaceList from "../components/PlaceList";
 import Constants from "expo-constants";
+// https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+toronto+canada&key=YOURAPIKEY
 
-// const apiUrl = `${GOOGLE_PACES_API_BASE_URL}/autocomplete/json?key=${GOOGLE_API_KEY}&input=basketball+court`;
+const apiKey = Constants.manifest?.extra?.googleApiKey;
 
 class GoogleMap extends Component {
-  static navigationOptions = (props) => {
-    const placeName = props.navigation.getParam("placeName");
-    return { headerTitle: placeName.toUpperCase() };
-  };
+
   constructor(props) {
     super(props);
     // Initial State
@@ -23,12 +20,9 @@ class GoogleMap extends Component {
       placeType: "",
     };
   }
+
   componentDidMount() {
     console.log(this.props);
-    const { navigation } = this.props;
-    const placeType = navigation.getParam("placeType");
-    this.setState({ placeType: placeType });
-
     this.getCurrentLocation();
   }
   
@@ -45,36 +39,32 @@ class GoogleMap extends Component {
   }
 
   // Get the place url
-  getPlacesUrl(lat, long, radius, type, apiKey) {
-    const baseUrl =`https://maps.googleapis.com/maps/place/nearbysearch/json?`;
-    const location = `location=${lat},${long}&radius=${radius}`;
-    const typeData = `&types=${type}`;
-    // const apiKey = Constants.manifest?.extra?.googleApiKey;
+  getPlacesUrl(lat, long, radius, apiKey) {
+    const baseUrl =`https://maps.googleapis.com/maps/api/place/textsearch/json?query=basketball+court`;
+    const location = `${lat},${long}`;
     const api = `&key=${apiKey}`;
-    return `${baseUrl}${location}${api}&input=basketball+court`;
+    return `${baseUrl}${location}${api}`;
 
   }
 
   getPlaces() {
-    const { lat, long, placeType } = this.state;
+    const { lat, long } = this.state;
     const markers = [];
-    const apiKey = Constants.manifest?.extra?.googleApiKey;
-    const url = this.getPlacesUrl(lat, long, 1500, placeType, apiKey);
+    const url = this.getPlacesUrl(lat, long, 1500, apiKey);
     fetch(url)
         .then(res => res.json())
         .then(res => {
             res.results.map((element, index) => {
-                const marketObj = {};
-                marketObj.id = element.id;
-                marketObj.name = element.name;
-                marketObj.photos = element.photos;
-                marketObj.rating = element.rating;
-                marketObj.vicinity = element.vicinity;
-                marketObj.marker = {
+                const markerObj = {};
+                markerObj.id = element.id;
+                markerObj.name = element.name;
+                markerObj.photos = element.photos;
+                markerObj.rating = element.rating;
+                markerObj.marker = {
                     latitude: element.geometry.location.lat,
                     longitude: element.geometry.location.lng
                 };
-                markers.push(marketObj);
+                markers.push(markerObj);
             });
             // update the places array
             this.setState({ places: markers });
@@ -109,9 +99,6 @@ class GoogleMap extends Component {
               />
             ))}
           </MapView>
-        </View>
-        <View style={styles.placeList}>
-            <PlaceList places={places}/>
         </View>
       </View>
     );

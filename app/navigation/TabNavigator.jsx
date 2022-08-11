@@ -1,11 +1,10 @@
-import { StatusBar } from "expo-status-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FindPugScreen from "../screens/FindPugScreen";
+import Map from "../screens/Map/GoogleMap2";
 import AccountScreen from "../screens/AccountScreen";
 import ChatStack from "./ChatStack";
 import { View, Text } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import ChatHomeScreen from "../screens/Chat/ChatHomeScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -38,7 +37,7 @@ const Tabs = () => {
     >
       <Tab.Screen
         name="Pick-up Games"
-        component={FindPugScreen}
+        component={Map}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
