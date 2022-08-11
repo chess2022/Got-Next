@@ -1,23 +1,37 @@
 import { StatusBar } from 'expo-status-bar'
-import { SimpleLineIcons } from '@expo/vector-icons'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native'
-import { Avatar } from 'react-native-elements'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
+import { StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native'
 import CustomListItem from '../components/CustomListItem'
-import { getAuth, signOut, collection, getFirestore, onSnapshot } from '../../config/firebase'
+import { collection, getFirestore, onSnapshot } from '../../config/firebase'
+import { SimpleLineIcons } from "@expo/vector-icons";
+
 
 function ChatHomeScreen({navigation}) {
   const [chats, setChats] = useState([])
   const db = getFirestore()
-
+  
   useEffect(
     () =>
       onSnapshot(collection(db, 'chats'), (snapshot) => {
         setChats(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
-      }),
-    []
-  )
-  
+      }),[])
+      
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Chat Topics",
+      headerStyle: { backgroundColor: 'white' },
+      headerTitleStyle: { color: "black" },
+      headerTintColor: "black",
+      headerRight: () => (
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate("AddChat")}>
+            <SimpleLineIcons name="pencil" size={18} color="black" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
   const enterChat = (id, chatName) => {
     navigation.navigate('ChatDetailScreen', {
       id,
