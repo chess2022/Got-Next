@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React from 'react'
 import { StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, View, Text } from 'react-native'
 import CustomListItem from '../components/CustomListItem'
 import { collection, getFirestore, onSnapshot } from '../../config/firebase'
@@ -10,13 +10,13 @@ function ChatHomeScreen({navigation}) {
   const [chats, setChats] = React.useState([])
   const db = getFirestore()
   
-  useEffect(
+  React.useEffect(
     () =>
       onSnapshot(collection(db, 'chats'), (snapshot) => {
         setChats(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
       }),[])
 
-  useLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     navigation.setOptions({
       title: "Chat Topics",
       headerStyle: { backgroundColor: "white" },
@@ -38,8 +38,8 @@ function ChatHomeScreen({navigation}) {
   }, [navigation]);
 
 
-  const enterChat = (id, chatName) => {
-    navigation.navigate('ChatDetailScreen', {
+  function enterChat(id, chatName) {
+    navigation.navigate('ChatDetail', {
       id,
       chatName,
     })

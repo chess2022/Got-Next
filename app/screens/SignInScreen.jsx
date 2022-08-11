@@ -53,7 +53,6 @@ function LoginScreen({ navigation }) {
         />
         <Input
           placeholder="Password"
-          secureTextEntry
           type="password"
           value={value.password}
           onChangeText={(text) => setValue({ ...value, password: text })}
