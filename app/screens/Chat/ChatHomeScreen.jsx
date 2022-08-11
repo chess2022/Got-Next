@@ -1,80 +1,41 @@
 import { StatusBar } from 'expo-status-bar'
-import { SimpleLineIcons } from '@expo/vector-icons'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native'
-import { Avatar } from 'react-native-elements'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
+import { StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, View, Text } from 'react-native'
 import CustomListItem from '../components/CustomListItem'
-import { getAuth, signOut, collection, getFirestore, onSnapshot } from '../../config/firebase'
+import { collection, getFirestore, onSnapshot } from '../../config/firebase'
+import { Ionicons } from "@expo/vector-icons";
 
-const ChatHomeScreen = ({ navigation }) => {
+
+function ChatHomeScreen({navigation}) {
   const [chats, setChats] = useState([])
-  const auth = getAuth()
   const db = getFirestore()
   
-  const signOutUser = () => {
-    signOut(auth)
-  }
-
   useEffect(
     () =>
       onSnapshot(collection(db, 'chats'), (snapshot) => {
         setChats(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
-      }),
-    []
-  )
-  
+      }),[])
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Chat",
-      // headerStyle: { backgroundColor: 'white' },
+      title: "Chat Topics",
+      headerStyle: { backgroundColor: "white" },
       headerTitleStyle: { color: "black" },
       headerTintColor: "black",
-      headerStyle: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-      },
-      headerLeft: () => (
-        <View
-          style={{
-            justifyContent: "flex-start",
-            backgroundColor: "white",
-          }}
-        >
-          <TouchableOpacity activeOpacity={0.5}>
-            <Avatar rounded source={{ uri: auth?.currentUser?.photoURL }} />
-          </TouchableOpacity>
-        </View>
-      ),
       headerRight: () => (
-        <View
-          style={{
-            marginRight: 20,
-            width: 120,
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            backgroundColor: "white",
-          }}
-        >
+        <View style={{flexDirection:"row", alignItems:"center", marginLeft: 10}}>
+          <Text>Start a new chat</Text>
           <TouchableOpacity
+            style={{marginLeft: 10}}
             activeOpacity={0.5}
-            onPress={() => navigation.replace("AddChatScreen")}
+            onPress={() => navigation.navigate("AddChat")}
           >
-            <SimpleLineIcons name="pencil" size={18} color="black" />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{
-              marginLeft: 30,
-            }}
-            activeOpacity={0.5}
-            onPress={signOutUser}
-          >
-            <SimpleLineIcons name="logout" size={18} color="black" />
+            <Ionicons name="ios-add-circle-sharp" size={24} color="black" />
           </TouchableOpacity>
         </View>
       ),
     });
-  }, [navigation])
+  }, [navigation]);
 
   const enterChat = (id, chatName) => {
     navigation.navigate('ChatDetailScreen', {
