@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import React, { useEffect, useState, useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, View, Text } from 'react-native'
 import CustomListItem from '../components/CustomListItem'
 import { collection, getFirestore, onSnapshot } from '../../config/firebase'
@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 
 function ChatHomeScreen({navigation}) {
-  const [chats, setChats] = useState([])
+  const [chats, setChats] = React.useState([])
   const db = getFirestore()
   
   useEffect(
@@ -37,7 +37,7 @@ function ChatHomeScreen({navigation}) {
     });
   }, [navigation]);
 
-  
+
   const enterChat = (id, chatName) => {
     navigation.navigate('ChatDetailScreen', {
       id,

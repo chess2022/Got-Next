@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
 import { Button, Input, Image } from "react-native-elements";
 import { StatusBar } from "expo-status-bar";
@@ -39,28 +39,29 @@ function LoginScreen({ navigation }) {
       <StatusBar style="light" />
       <Image source={logo} style={styles.ImageDimension} />
       <View style={styles.inputContainer}>
+        {!!value.error && (
+          <View style={styles.error}>
+            <Text>{value.error}</Text>
+          </View>
+        )}
         <Input
           placeholder="Email"
           autoFocus
           type="email"
           value={value.email}
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={(text) => setValue({ ...value, email: text })}
         />
         <Input
           placeholder="Password"
           secureTextEntry
           type="password"
           value={value.password}
-          onChangeText={(text) => setPassword(text)}
-          onSubmitEditing={signIn}
+          onChangeText={(text) => setValue({ ...value, password: text })}
+          secureTextEntry={true}
         />
       </View>
 
-      <Button
-        containerStyle={styles.button}
-        onPress={signIn}
-        title="Login"
-      />
+      <Button containerStyle={styles.button} onPress={signIn} title="Login" />
       <Button
         containerStyle={styles.button}
         onPress={() => navigation.navigate("Sign Up")}

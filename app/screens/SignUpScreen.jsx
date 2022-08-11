@@ -8,7 +8,7 @@ import {
   updateProfile,
 } from "../config/firebase";
 
-const SignUpScreen = ({ navigation }) => {
+function SignUpScreen({ navigation }) {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +40,7 @@ const SignUpScreen = ({ navigation }) => {
       <StatusBar style="light" />
 
       <Text h3 style={{ marginBottom: 50 }}>
-        Create a signal account
+        Create a Got Next account
       </Text>
 
       <View style={styles.inputContainer}>
