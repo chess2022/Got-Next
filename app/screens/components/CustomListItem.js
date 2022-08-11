@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { StyleSheet } from 'react-native'
 import { ListItem, Avatar } from 'react-native-elements'
 import {
@@ -9,11 +9,11 @@ import {
   orderBy,
 } from "../../config/firebase";
 
-const CustomListItem = ({ id, chatName, enterChat }) => {
-  const [chatMessages, setChatMessages] = useState([])
+function CustomListItem({ id, chatName, enterChat }) {
+  const [chatMessages, setChatMessages] = React.useState([])
   const db = getFirestore()
 
-  useEffect(() =>
+  React.useEffect(() =>
     onSnapshot(
       query(
         collection(db, `chats/${id}`, 'messages'),
