@@ -37,6 +37,7 @@ function ChatHomeScreen({navigation}) {
     });
   }, [navigation]);
 
+  
   const enterChat = (id, chatName) => {
     navigation.navigate('ChatDetailScreen', {
       id,

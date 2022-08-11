@@ -5,17 +5,34 @@ import { StatusBar } from "expo-status-bar";
 import { getAuth, signInWithEmailAndPassword } from "../config/firebase";
 
 const logo = require("../assets/got-next-logo.png");
+const auth = getAuth();
 
-const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const auth = getAuth();
+function LoginScreen({ navigation }) {
+ const [value, setValue] = React.useState({
+   email: "",
+   password: "",
+   error: "",
+ });
 
-  const signIn = () => {
-    signInWithEmailAndPassword(auth, email, password).catch((error) =>
-      console.log(error.message)
-    );
-  };
+ async function signIn() {
+   if (value.email === "" || value.password === "") {
+     setValue({
+       ...value,
+       error: "Email and password are mandatory.",
+     });
+     return;
+   }
+
+   try {
+     await signInWithEmailAndPassword(auth, value.email, value.password);
+     navigation.navigate("Sign In");
+   } catch (error) {
+     setValue({
+       ...value,
+       error: error.message,
+     });
+   }
+ }
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -26,14 +43,14 @@ const LoginScreen = ({ navigation }) => {
           placeholder="Email"
           autoFocus
           type="email"
-          value={email}
+          value={value.email}
           onChangeText={(text) => setEmail(text)}
         />
         <Input
           placeholder="Password"
           secureTextEntry
           type="password"
-          value={password}
+          value={value.password}
           onChangeText={(text) => setPassword(text)}
           onSubmitEditing={signIn}
         />
@@ -46,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
       />
       <Button
         containerStyle={styles.button}
-        onPress={() => navigation.navigate("Register")}
+        onPress={() => navigation.navigate("Sign Up")}
         type="outline"
         title="Register"
       />
