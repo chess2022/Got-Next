@@ -194,7 +194,6 @@ const styles = StyleSheet.create({
   },
   receiverText: {
     color: "black",
-    // fontWeight: "bold",
     marginLeft: 10,
   },
   senderText: {

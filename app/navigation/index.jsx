@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
 import UserStack from "./userStack";
