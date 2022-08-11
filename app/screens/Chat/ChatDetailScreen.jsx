@@ -14,9 +14,9 @@ import {
   orderBy,
 } from '../../config/firebase';
 
-const ChatDetailScreen = ({ navigation, route }) => {
-  const [msgInput, setMsgInput] = useState("");
-  const [messages, setMessages] = useState([]);
+function ChatDetailScreen({ navigation, route }) {
+  const [msgInput, setMsgInput] = React.useState("");
+  const [messages, setMessages] = React.useState([]);
   const auth = getAuth();
   const db = getFirestore();
 
@@ -34,7 +34,7 @@ const ChatDetailScreen = ({ navigation, route }) => {
       .catch((error) => alert(error.message));
   };
 
-  useEffect(
+  React.useEffect(
     () =>
       onSnapshot(
         query(
@@ -50,7 +50,7 @@ const ChatDetailScreen = ({ navigation, route }) => {
     [route]
   );
 
-  useLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     navigation.setOptions({
       title: "Chat",
       headerBackTitleVisible: false,
@@ -63,7 +63,7 @@ const ChatDetailScreen = ({ navigation, route }) => {
               uri: messages[0]?.photoURL,
             }}
           />
-          <Text style={{ color: "white", marginLeft: 10, fontWeight: 700 }}>
+          <Text style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}>
             {route.params.chatName}
           </Text>
         </View>
@@ -152,7 +152,7 @@ const ChatDetailScreen = ({ navigation, route }) => {
             </ScrollView>
             <View style={styles.footer}>
               <TextInput
-                placeholder="Signal Message..."
+                placeholder="Message..."
                 style={styles.textInput}
                 value={msgInput}
                 onChangeText={(text) => setMsgInput(text)}
@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 15,
+    bottom: 100,
   },
   textInput: {
     bottom: 0,
@@ -193,12 +194,12 @@ const styles = StyleSheet.create({
   },
   receiverText: {
     color: "black",
-    fontWeight: 500,
+    // fontWeight: "bold",
     marginLeft: 10,
   },
   senderText: {
     color: "white",
-    fontWeight: 500,
+    fontWeight: "bold",
     marginLeft: 10,
     marginBottom: 15,
   },
