@@ -68,24 +68,6 @@ function ChatDetailScreen({ navigation, route }) {
           </Text>
         </View>
       ),
-      headerRight: () => (
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            width: 80,
-            marginRight: 20,
-          }}
-        >
-          <TouchableOpacity>
-            <FontAwesome name="video-camera" size="24" color="white" />
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <Ionicons name="call" size="24" color="white" />
-          </TouchableOpacity>
-        </View>
-      ),
     });
   }, [navigation, messages]);
 
@@ -103,8 +85,14 @@ function ChatDetailScreen({ navigation, route }) {
         keyboardVerticalOffset={90}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          {/* all the sent messages */}
           <>
-            <ScrollView contentContainerStyle={{ paddingTop: 15 }}>
+            <ScrollView style={{bottom: 92}}
+              contentContainerStyle={{
+                paddingTop: 15,
+                justifyContent: "flex-start",
+              }}
+            >
               {messages.map((message) =>
                 message.email === auth.currentUser.email ? (
                   <View key={message.id} style={{ alignItems: "flex-end" }}>
@@ -150,6 +138,8 @@ function ChatDetailScreen({ navigation, route }) {
                 )
               )}
             </ScrollView>
+
+            {/* the text input box for typing your message */}
             <View style={styles.footer}>
               <TextInput
                 placeholder="Message..."
@@ -180,7 +170,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 15,
-    bottom: 100,
+    bottom: 80,
   },
   textInput: {
     bottom: 0,
@@ -194,12 +184,10 @@ const styles = StyleSheet.create({
   },
   receiverText: {
     color: "black",
-    // fontWeight: "bold",
     marginLeft: 10,
   },
   senderText: {
     color: "white",
-    fontWeight: "bold",
     marginLeft: 10,
     marginBottom: 15,
   },
