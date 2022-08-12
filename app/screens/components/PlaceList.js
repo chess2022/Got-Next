@@ -22,7 +22,7 @@ class PlaceList extends Component {
                     {places.length > 0 && (
                         <FlatList
                             data={places}
-                            renderItem={({ item}) => (
+                            renderItem={({ item }) => (
                                 <TouchableOpacity>
                                     <ListItem
                                     key={item.id}
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  startReviewsContainer: {
+  starReviewsContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
   },

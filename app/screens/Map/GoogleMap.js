@@ -14,20 +14,21 @@ import Constants from "expo-constants";
 const apiKey = Constants.manifest?.extra?.googleApiKey;
 
 
-export default class Map2 extends React.Component {
-  state = {
-    hasLocationPermission: false,
-    latitude: 0,
-    longitude: 0,
-    restaurantList: [],
-  };
+export default class MapViewScreen extends React.Component {
+  constructor(props) {
+    super(props)
 
-  componentDidMount() {
-    this.getLocationAsync();
+    this.state = {
+      hasLocationPermission: false,
+      latitude: 0,
+      longitude: 0,
+      results: [],
+      isLoading: true
+    };
   }
-
+  
   async getLocationAsync() {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    const { status } = await Permissions.askAsync(Permissions.LOCATION_FOREGROUND);
     if (status === "granted") {
       let location = await Location.getCurrentPositionAsync({});
       this.setState({
@@ -40,7 +41,7 @@ export default class Map2 extends React.Component {
     }
   }
 
-  handleHoopSearch = () => {
+  async getHoopSearch() {
     const url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
     const location = `location=${this.state.latitude},${this.state.longitude}`;
     const radius = "&radius=16000";
@@ -49,16 +50,22 @@ export default class Map2 extends React.Component {
     const hoopSearchUrl = url + location + radius + type + key;
     fetch(hoopSearchUrl)
       .then((response) => response.json())
-      .then((result) => this.setState({ restaurantList: result }))
+      .then((results) => this.setState({ hoopList: results }))
       .catch((e) => console.log(e));
-  };
+  }
+
+
+  componentDidMount() {
+    this.getLocationAsync();
+    this.getHoopSearch();
+  }
 
   render() {
-    console.log(this.state.restaurantList.results);
+    console.log(this.state.hoopList.results);
     return (
       <View style={this.styles.container}>
         <FlatList
-          data={this.state.restaurantList.results}
+          data={this.state.hoopList.results}
           keyExtractor={(item) => item.place_id}
           renderItem={({ item }) => <Text>{item.name}</Text>}
           style={{
@@ -68,7 +75,7 @@ export default class Map2 extends React.Component {
             padding: 5,
           }}
         />
-        <TouchableOpacity onPress={() => this.handleRestaurantSearch()}>
+        <TouchableOpacity onPress={() => this.handleHoopSearch()}>
           <Text
             style={{
               backgroundColor: "grey",
@@ -77,7 +84,7 @@ export default class Map2 extends React.Component {
               marginBottom: 50,
             }}
           >
-            Search Restaurants
+            Search Courts
           </Text>
         </TouchableOpacity>
         <StatusBar style="auto" />
