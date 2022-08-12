@@ -4,7 +4,7 @@
 | Field | Detail |
 |-------|--------|
 | Project Name | Got Next |
-| Description | An app created in React Native for finding local pick-up games (POGs) and connecting with other players. |
+| Description | An app created in React Native for finding local pick-up games (PUGs) and connecting with other players. |
 | Developers | [Cheryl](https://github.com/chess2022) |
 | Live Website | none yet |
 
