@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
-import { Button, Input, Image } from "react-native-elements";
+import { Button, Input, Image, Text } from "react-native-elements";
 import { StatusBar } from "expo-status-bar";
 import { getAuth, signInWithEmailAndPassword } from "../config/firebase";
 

@@ -23,6 +23,9 @@ export default {
       config: {
         googleMapsApiKey: process.env.GOOGLE_API_KEY,
       },
+      infoPlist: {
+        NSLocationWhenInUseUsageDescription: "Got Next needs your location to map nearby courts"
+      },
     },
     android: {
       package: "com.chess.gotNext",

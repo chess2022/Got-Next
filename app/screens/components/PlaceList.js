@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { FlatList, TouchableOpacity, View, ActivityIndicator, Text, StyleSheet } from "react-native";
-import { ListItem } from "@rneui/themed";
-import { Container, Content } from "native-base";
+import { ListItem } from "react-native-elements";
 import Constants from "expo-constants";
 import RenderStarReview from "./ReviewStars"
 
@@ -13,8 +12,8 @@ class PlaceList extends Component {
         const baseImage = "../assets/basketball.jpeg"
 
         return (
-            <Container style={styles.container2}>
-                <Content>
+            <View style={styles.container2}>
+                <View>
                     {places.length <= 0 && (
                         <View style={styles.loaderContainer}>
                             <ActivityIndicator size="large"/>
@@ -23,7 +22,7 @@ class PlaceList extends Component {
                     {places.length > 0 && (
                         <FlatList
                             data={places}
-                            renderItem={({ item}) => (
+                            renderItem={({ item }) => (
                                 <TouchableOpacity>
                                     <ListItem
                                     key={item.id}
@@ -60,8 +59,8 @@ class PlaceList extends Component {
                             keyExtractor={item => item.id.toString()}
                         /> 
                     )}
-                </Content>
-            </Container>
+                </View>
+            </View>
         );
     }
 }
@@ -97,7 +96,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  startReviewsContainer: {
+  starReviewsContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
   },
