@@ -3,7 +3,7 @@
 // https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJKSp50NI0K4gR6C6L3yYqpYY&fields=name&key=YOURKEY
 
 import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View, Image } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from "react-native-maps";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
@@ -11,11 +11,11 @@ import * as Location from "expo-location";
 const apiKey = Constants.manifest?.extra?.googleApiKey;
 
 
-export default function GetPugs() {
+export default function GetPugs(props) {
 
-    const [location, setLocation] = React.useState(null);
-    const [error, setError] = React.useState(null);
-    // const [errorMsg, setErrorMsg] = React.useState(null);
+    const [location, setLocation] = React.useState({});
+    const [error, setError] = React.useState();
+    const [places, setPlaces] = React.useState([]);
 
     React.useEffect(() => {
         (async () => {
@@ -24,94 +24,106 @@ export default function GetPugs() {
             setError("Permission to access location was denied");
             return;
         }
-        const location = await Location.getCurrentPositionAsync({});
+        let location = await Location.getCurrentPositionAsync({}) 
+        // let backPerm = await Location.requestBackgroundPermissionsAsync();
+        const latitude =  location.coords.latitude;
+        const longitude = location.coords.longitude;
         setLocation(location.coords);
+
+        const radMeter = 2000; //radius in meters
+        const keyword = `&keyword=basketball+court`;
+
+        const url =
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&radius="+radMeter+keyword+"&key="+apiKey;
+
+        fetch(url)
+        .then((res) => {
+            return res.json();
+        })
+        .then((res) => {
+            const places = []; // This Array will contain locations received from google
+            for (let googlePlace of res.results) {
+            const place = {};
+            const lat = googlePlace.geometry.location.lat;
+            const lng = googlePlace.geometry.location.lng;
+            const coordinate = {
+                latitude: lat,
+                longitude: lng,
+            };
+            const gallery = [];
+            const baseImage = "../assets/basketball.jpeg";
+
+            if (googlePlace.photos) {
+                for (let photo of googlePlace.photos) {
+                let photoUrl =
+                    googlePlace.photos.length > 0
+                    ? `https://maps.googleapis.com/maps/api/place/photo?photoreference=${googlePlace.photos[0].photo_reference}&sensor=false&maxheight=${googlePlace.photos[0].height}&maxwidth=${googlePlace.photos[0].width}&key=${apiKey}`
+                    : baseImage;
+
+                gallery.push(photoUrl);
+                }
+            }
+
+            place["coordinate"] = coordinate;
+            place["placeId"] = googlePlace.place_id;
+            place["placeName"] = googlePlace.name;
+            place["gallery"] = gallery;
+            place["rating"] = googlePlace.rating;
+            place["vicinity"] = googlePlace.vicinity;
+
+            places.push(place);
+            setPlaces(places)
+            }
+            // console.log(res);
+            // console.log("places one", places);
+
+        })
+        .catch((error) => {
+            console.log(error);
+        });
         })();
     }, []);
     
-    // let text = "Waiting...";
-    // if (errorMsg) {
-    //     text = errorMsg;
-    // } else if (location) {
-    //     text = JSON.stringify(location);
-    // }
-
-    const radMeter = 2 * 1000; // Search withing 2 KM radius
-    const latitude = location.latitude
-    const longitude = location.longitude
-    const keyword = `&keyword=basketball+court`;
-
-    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+latitude+','+longitude+'&radius='+radMeter+keyword+'&key='+apiKey
-
-    fetch(url)
-    .then(res => {
-        return res.json()
-    })
-    .then(res => {
-
-    const places = [] // This Array will contain locations received from google
-        for(let googlePlace of res.results) {
-        const place = {}
-        const lat = googlePlace.geometry.location.lat;
-        const lng = googlePlace.geometry.location.lng;
-        const coordinate = {
-            latitude: lat,
-            longitude: lng,
-        }
-
-        const gallery = []
-        const baseImage = "../assets/basketball.jpeg";
-
-        if (googlePlace.photos) {
-        for(let photo of googlePlace.photos) {
-            var photoUrl = item.photos.length > 0 ? `https://maps.googleapis.com/maps/api/place/photo?photoreference=${item.photos[0].photo_reference}&sensor=false&maxheight=${item.photos[0].height}&maxwidth=${item.photos[0].width}&key=${GOOGLE_API_KEY}` : baseImage
-
-            gallery.push(photoUrl);
-        }
-        }
-
-        place['coordinate'] = coordinate
-        place['placeId'] = googlePlace.place_id
-        place['placeName'] = googlePlace.name
-        place['gallery'] = gallery
-
-        places.push(place);
-        console.log(places)
-        }
-        console.log(res);
-
-        // Do your work here with places Array
-    })
-    .catch(error => {
-        console.log(error);
-        });
-        
-
+    console.log("places", places);
+ 
     return (
-        <View style={{ marginTop: 50, flex: 1 }}>
-            {/* <Text>{text}</Text> */}
+      <View style={{ marginTop: 50, flex: 1 }}>
         <MapView
-            style={styles.map}
-            provider={PROVIDER_GOOGLE}
-            showsUserLocation="true"
-            region={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-            }}
+          style={styles.map}
+          provider={PROVIDER_GOOGLE}
+          showsUserLocation="true"
+          initialRegion={{
+            latitude: 45.628,
+            longitude: -122.6739,
+            latitudeDelta: 0.092,
+            longitudeDelta: 0.042,
+          }}
         >
-            {places.map(({ coordinate }) => (
-            <Marker coordinate={coordinate} pinColor="red">
-            </Marker>
-            ))}
-            <Marker coordinate={location} pinColor="red">
+          {places.map((place) => {
+            return (
+                  <Marker coordinate={place.coordinate} key={place.placeId} pinColor="red">
+                    <Image
+                      source={require("../../assets/icons/basketball-marker.png")}
+                      style={{
+                        height: Dimensions.get("window").width * 0.1,
+                        width: Dimensions.get("window").width * 0.1,
+                      }}
+                    />
+                    <Callout
+                      style={{ width: Dimensions.get("window").width * 0.3 }}
+                    >
+                      <Text>{place.placeName}</Text>
+                    </Callout>
+                  </Marker>
+                )})
+            }
+          <Marker coordinate={location} pinColor="red">
             <Callout>
-                <Text>You are here</Text>
+              <Text>You are here</Text>
             </Callout>
-            </Marker>
+          </Marker>
         </MapView>
-        </View>
+      </View>
     );
 }
 
@@ -126,4 +138,8 @@ const styles = StyleSheet.create({
         width: Dimensions.get("window").width,
         height: Dimensions.get("window").height,
     },
-    });
+    placeList: {
+        flex:1,
+        justifyContent: "center",
+    },
+});

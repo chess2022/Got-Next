@@ -1,8 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import FindPugScreen from "../screens/FindPugScreen";
 import GetPugs from "../screens/Map/PugMapScreen";
-import Map from "../screens/Map/GoogleMap2";
-import AccountScreen from "../screens/AccountScreen";
+import ProfileStack from "./ProfileStack";
 import ChatStack from "./ChatStack";
 import { View, Text } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
@@ -18,19 +16,19 @@ const Tabs = () => {
           flexDirection: "row",
           position: "absolute",
           bottom: 25,
-          left: 20,
-          right: 20,
-          elevation: 0,
+          // left: 20,
+          // right: 20,
+          // elevation: 0,
           backgroundColor: "#fff",
-          borderRadius: 15,
-          height: 90,
-          shadowColor: "grey",
-          shadowOffset: {
-            width: 0,
-            height: 10,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.5,
+          // borderRadius: 15,
+          height: 70,
+          // shadowColor: "grey",
+          // shadowOffset: {
+          //   width: 0,
+          //   height: 10,
+          // },
+          // shadowOpacity: 0.25,
+          // shadowRadius: 3.5,
           elevation: 5,
         },
         headerShown: false,
@@ -60,7 +58,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Account"
-        component={AccountScreen}
+        component={ProfileStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

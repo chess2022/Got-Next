@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState, useRef } from "react";
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { Avatar } from "react-native-elements";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
@@ -20,6 +20,8 @@ function ChatDetailScreen({ navigation, route }) {
   const auth = getAuth();
   const db = getFirestore();
 
+  const scrollRef = useRef();
+
   const sendMsg = async () => {
     Keyboard.dismiss();
 
@@ -39,7 +41,7 @@ function ChatDetailScreen({ navigation, route }) {
       onSnapshot(
         query(
           collection(db, `chats/${route.params.id}`, "messages"),
-          orderBy("timestamp", "desc")
+          orderBy("timestamp", "asc")
         ),
         (snapshot) => {
           setMessages(
@@ -87,11 +89,14 @@ function ChatDetailScreen({ navigation, route }) {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           {/* all the sent messages */}
           <>
-            <ScrollView style={{bottom: 92}}
+            <ScrollView
+              style={{ bottom: 92 }}
               contentContainerStyle={{
                 paddingTop: 15,
-                justifyContent: "flex-start",
+                justifyContent: "flex-end",
               }}
+              ref={scrollRef}
+              onContentSizeChange={() => scrollRef.current.scrollToEnd({animated:true})}
             >
               {messages.map((message) =>
                 message.email === auth.currentUser.email ? (
