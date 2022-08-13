@@ -13,10 +13,9 @@ const apiKey = Constants.manifest?.extra?.googleApiKey;
 
 export default function GetPugs() {
 
-    const [location, setLocation] = React.useState(null);
-    const [error, setError] = React.useState(null);
-    const [errorMsg, setErrorMsg] = React.useState(null);
-    const [places, setPlaces] = React.useState(null);
+    const [location, setLocation] = React.useState();
+    const [error, setError] = React.useState();
+    const [places, setPlaces] = React.useState();
 
     React.useEffect(() => {
         (async () => {
@@ -81,36 +80,47 @@ export default function GetPugs() {
 
             places.push(place);
             setPlaces(places)
-            console.log(places);
             }
-            console.log(res);
+            // console.log(res);
+            // console.log("places one", places);
+
         })
         .catch((error) => {
             console.log(error);
         });
-
-
         })();
     }, []);
-        
-
+    
+    console.log("places", places);
+ 
     return (
       <View style={{ marginTop: 50, flex: 1 }}>
-        {/* <Text>{text}</Text> */}
         <MapView
           style={styles.map}
           provider={PROVIDER_GOOGLE}
           showsUserLocation="true"
-          region={{
+          initialRegion={{
             latitude: 45.5152,
             longitude: -122.6784,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.092,
+            longitudeDelta: 0.042,
           }}
         >
-          {places.map(({ coordinate }) => (
-            <Marker coordinate={coordinate} pinColor="red"></Marker>
-          ))}
+          {places && places.length
+            ? places.map((place) => {
+                return (
+                  <Marker
+                    coordinate={place.coordinate}
+                    key={place.placeId}
+                    pinColor="red"
+                  >
+                    <Callout>
+                      <Text>{place.placeName}</Text>
+                    </Callout>
+                  </Marker>
+                );
+              })
+            : null}
           <Marker coordinate={location} pinColor="red">
             <Callout>
               <Text>You are here</Text>
