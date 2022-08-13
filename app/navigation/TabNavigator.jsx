@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import FindPugScreen from "../screens/FindPugScreen";
+// import MapViewScreen from "../../scratch/";
 import GetPugs from "../screens/Map/PugMapScreen";
 // import GetPugs from "../../scratch/GoogleMap2";
 import AccountScreen from "../screens/AccountScreen";

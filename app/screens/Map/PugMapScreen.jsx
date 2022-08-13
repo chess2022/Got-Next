@@ -34,15 +34,7 @@ export default function GetPugs() {
         const keyword = `&keyword=basketball+court`;
 
         const url =
-        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
-        latitude +
-        "," +
-        longitude +
-        "&radius=" +
-        radMeter +
-        keyword +
-        "&key=" +
-        apiKey;
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&radius="+radMeter+keyword+"&key="+apiKey;
 
         fetch(url)
         .then((res) => {
@@ -58,7 +50,6 @@ export default function GetPugs() {
                 latitude: lat,
                 longitude: lng,
             };
-
             const gallery = [];
             const baseImage = "../assets/basketball.jpeg";
 
@@ -77,6 +68,8 @@ export default function GetPugs() {
             place["placeId"] = googlePlace.place_id;
             place["placeName"] = googlePlace.name;
             place["gallery"] = gallery;
+            place["rating"] = googlePlace.rating;
+            place["vicinity"] = googlePlace.vicinity;
 
             places.push(place);
             setPlaces(places)
@@ -100,8 +93,8 @@ export default function GetPugs() {
           provider={PROVIDER_GOOGLE}
           showsUserLocation="true"
           initialRegion={{
-            latitude: 45.5152,
-            longitude: -122.6784,
+            latitude: 45.628,
+            longitude: -122.6739,
             latitudeDelta: 0.092,
             longitudeDelta: 0.042,
           }}

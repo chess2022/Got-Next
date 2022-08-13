@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
-import PlaceList from "../components/PlaceList";
+import PlaceList from "../app/screens/components/PlaceList";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
