@@ -3,7 +3,7 @@
 // https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJKSp50NI0K4gR6C6L3yYqpYY&fields=name&key=YOURKEY
 
 import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View, Image } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from "react-native-maps";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
@@ -11,11 +11,11 @@ import * as Location from "expo-location";
 const apiKey = Constants.manifest?.extra?.googleApiKey;
 
 
-export default function GetPugs() {
+export default function GetPugs(props) {
 
-    const [location, setLocation] = React.useState();
+    const [location, setLocation] = React.useState({});
     const [error, setError] = React.useState();
-    const [places, setPlaces] = React.useState();
+    const [places, setPlaces] = React.useState([]);
 
     React.useEffect(() => {
         (async () => {
@@ -99,21 +99,24 @@ export default function GetPugs() {
             longitudeDelta: 0.042,
           }}
         >
-          {places && places.length
-            ? places.map((place) => {
-                return (
-                  <Marker
-                    coordinate={place.coordinate}
-                    key={place.placeId}
-                    pinColor="red"
-                  >
-                    <Callout>
+          {places.map((place) => {
+            return (
+                  <Marker coordinate={place.coordinate} key={place.placeId} pinColor="red">
+                    <Image
+                      source={require("../../assets/icons/basketball-marker.png")}
+                      style={{
+                        height: Dimensions.get("window").width * 0.1,
+                        width: Dimensions.get("window").width * 0.1,
+                      }}
+                    />
+                    <Callout
+                      style={{ width: Dimensions.get("window").width * 0.3 }}
+                    >
                       <Text>{place.placeName}</Text>
                     </Callout>
                   </Marker>
-                );
-              })
-            : null}
+                )})
+            }
           <Marker coordinate={location} pinColor="red">
             <Callout>
               <Text>You are here</Text>
@@ -135,4 +138,8 @@ const styles = StyleSheet.create({
         width: Dimensions.get("window").width,
         height: Dimensions.get("window").height,
     },
-    });
+    placeList: {
+        flex:1,
+        justifyContent: "center",
+    },
+});

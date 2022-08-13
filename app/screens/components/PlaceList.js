@@ -12,55 +12,59 @@ class PlaceList extends Component {
         const baseImage = "../assets/basketball.jpeg"
 
         return (
-            <View style={styles.container2}>
-                <View>
-                    {places.length <= 0 && (
-                        <View style={styles.loaderContainer}>
-                            <ActivityIndicator size="large"/>
-                        </View>
-                    )}
-                    {places.length > 0 && (
-                        <FlatList
-                            data={places}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity>
-                                    <ListItem
-                                    key={item.id}
-                                    title={
-                                        <View style={styles.rowDirection}>
-                                            <Text>{item.name}</Text>
-                                            <Text>1.4km</Text>
-                                        </View>
-                                    }
-                                    subtitle={
-                                        item.rating && (
-                                            <View>
-                                                <View style={styles.starReviewsContainer}>
-                                                    <RenderStarReview stars={item.rating} />
-                                                    <Text>{item.rating.toFixed(1)}</Text>
-                                                </View>
-                                                <View>
-                                                    <Text>{item.vicinity}</Text>
-                                                </View>
-                                            </View>
-                                        )
-                                    }
-                                    leftAvatar={{
-                                        rounded: false,
-                                        size: "large",
-                                        source: item.photos && {
-                                            uri: item.photos.length > 0 ? `https://maps.googleapis.com/maps/api/place/photo?photoreference=${item.photos[0].photo_reference}&sensor=false&maxheight=${item.photos[0].height}&maxwidth=${item.photos[0].width}&key=${GOOGLE_API_KEY}` : baseImage
-                                        }
-                                    }}
-                                    bottomDivider
-                                    chevron={{ color: "#e90000", size: 30 }} />
-                                </TouchableOpacity>
-                            )}
-                            keyExtractor={item => item.id.toString()}
-                        /> 
-                    )}
+          <View style={styles.container2}>
+            <View>
+              {places && places.length <= 0 && (
+                <View style={styles.loaderContainer}>
+                  <ActivityIndicator size="large" />
                 </View>
+              )}
+              {places && places.length > 0 && (
+                <FlatList
+                  data={places}
+                  keyExtractor={(item) => item.placeId}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity>
+                      <ListItem
+                        key={item.id}
+                        title={
+                          <View style={styles.rowDirection}>
+                            <Text>{item.name}</Text>
+                            <Text>1.4km</Text>
+                          </View>
+                        }
+                        subtitle={
+                          item.rating && (
+                            <View>
+                              <View style={styles.starReviewsContainer}>
+                                <RenderStarReview stars={item.rating} />
+                                <Text>{item.rating.toFixed(1)}</Text>
+                              </View>
+                              <View>
+                                <Text>{item.vicinity}</Text>
+                              </View>
+                            </View>
+                          )
+                        }
+                        leftAvatar={{
+                          rounded: false,
+                          size: "large",
+                          source: item.photos && {
+                            uri:
+                              item.photos.length > 0
+                                ? `https://maps.googleapis.com/maps/api/place/photo?photoreference=${item.photos[0].photo_reference}&sensor=false&maxheight=${item.photos[0].height}&maxwidth=${item.photos[0].width}&key=${GOOGLE_API_KEY}`
+                                : baseImage,
+                          },
+                        }}
+                        bottomDivider
+                        chevron={{ color: "#e90000", size: 30 }}
+                      />
+                    </TouchableOpacity>
+                  )}
+                />
+              )}
             </View>
+          </View>
         );
     }
 }
