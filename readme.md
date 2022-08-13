@@ -45,7 +45,9 @@ AuthStack-->SignIn
 AuthStack-->SignUp
 UserStack-->TabBarNav
 TabBarNav-->FindPUGs
-TabBarNav-->Account
+TabBarNav-->ProfileStack
+ProfileStack-->AccountScreen
+ProfileStack-->AccountUpdate
 TabBarNav-->ChatStack
 ChatStack-->ChatHome
 ChatStack-->AddChat
