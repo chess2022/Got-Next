@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FindPugScreen from "../screens/FindPugScreen";
 import GetPugs from "../screens/Map/PugMapScreen";
-import Map from "../screens/Map/GoogleMap2";
+// import GetPugs from "../../scratch/GoogleMap2";
 import AccountScreen from "../screens/AccountScreen";
 import ChatStack from "./ChatStack";
 import { View, Text } from "react-native";

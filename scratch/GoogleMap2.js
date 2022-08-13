@@ -12,7 +12,7 @@ import * as Location from "expo-location";
 
 const apiKey = Constants.manifest?.extra?.googleApiKey;
 
-export default function Map() {
+export default function GetPugs() {
   const [pin, setPin] = React.useState({
     latitude: 45.5152,
     longitude: -122.6784,
@@ -45,7 +45,7 @@ export default function Map() {
 // url: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=YOUR_API_KEY",
   return (
     <View style={{ marginTop: 50, flex: 1 }}>
-      {/* <GooglePlacesAutocomplete
+      <GooglePlacesAutocomplete
         placeholder="Search"
         fetchDetails={true}
         GooglePlacesSearchQuery={{
@@ -78,7 +78,7 @@ export default function Map() {
           },
           listView: { backgroundColor: "white" },
         }}
-      /> */}
+      />
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
