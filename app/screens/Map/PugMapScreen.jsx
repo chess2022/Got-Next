@@ -1,9 +1,11 @@
-// https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+toronto+canada&key=YOURAPIKEY
-// find detail on each result
-// https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJKSp50NI0K4gR6C6L3yYqpYY&fields=name&key=YOURKEY
-
 import React from "react";
-import { Dimensions, StyleSheet, Text, View, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image
+} from "react-native";
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from "react-native-maps";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
@@ -81,8 +83,10 @@ export default function GetPugs(props) {
 
             places.push(place);
           }
-          setPlaces(places);
-          setLocation(location.coords);
+
+        setLocation(location.coords);
+        setPlaces(places);
+
         })
         .catch((error) => {
           console.log(error);
@@ -90,9 +94,9 @@ export default function GetPugs(props) {
     })();
   }, []);
 
-  console.log("places", places);
-  console.log("location", location);
-
+  // console.log("places", typeof(places))
+  // console.log("location", location.latitude);
+  
   return (
     <View style={{ marginTop: 50, flex: 1 }}>
       <MapView
@@ -100,34 +104,36 @@ export default function GetPugs(props) {
         provider={PROVIDER_GOOGLE}
         showsUserLocation="true"
         initialRegion={{
-          // latitude: location[latitude],
-          // longitude: location[longitude],
-          latitude: 45.68807915625369,
-          longitude: -122.69883840887158,
+          latitude: location.latitude,
+          longitude: location.longitude,
           latitudeDelta: 0.2,
           longitudeDelta: 0.1,
         }}
       >
-        {places.map((place) => {
-          return (
-            <Marker
-              coordinate={place.coordinate}
-              key={place.placeId}
-              pinColor="red"
-            >
-              <Image
-                source={require("../../assets/icons/basketball-marker.png")}
-                style={{
-                  height: Dimensions.get("window").width * 0.1,
-                  width: Dimensions.get("window").width * 0.1,
-                }}
-              />
-              <Callout style={{ width: Dimensions.get("window").width * 0.3 }}>
-                <Text>{place.placeName}</Text>
-              </Callout>
-            </Marker>
-          );
-        })}
+        {places && places.length
+          ? places.map((place) => {
+              return (
+                <Marker
+                  coordinate={place.coordinate}
+                  key={place.placeId}
+                  pinColor="red"
+                >
+                  <Image
+                    source={require("../../assets/icons/basketball-marker.png")}
+                    style={{
+                      height: Dimensions.get("window").width * 0.1,
+                      width: Dimensions.get("window").width * 0.1,
+                    }}
+                  />
+                  <Callout
+                    style={{ width: Dimensions.get("window").width * 0.3 }}
+                  >
+                    <Text>{place.placeName}</Text>
+                  </Callout>
+                </Marker>
+              );
+            })
+          : null}
         <Marker coordinate={location} pinColor="red">
           <Callout>
             <Text>You are here</Text>
@@ -149,7 +155,41 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
-  placeList: {
+  container1: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  container2: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  menuTitle: {
+    fontSize: 16,
+    fontFamily: "Poppins-Medium",
+    color: "#575757",
+    marginLeft: 20,
+    marginTop: 10,
+  },
+  mapView: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  restaurantList: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  chevron: {
+    color: "#e90000",
+  },
+  rowDirection: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  starReviewsContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+  },
+  loaderContainer: {
     flex: 1,
     justifyContent: "center",
   },
