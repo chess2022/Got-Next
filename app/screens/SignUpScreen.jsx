@@ -82,7 +82,7 @@ function SignUpScreen({ navigation }) {
       <View style={{ height: 100 }} />
     </KeyboardAvoidingView>
   );
-};
+}
 
 export default SignUpScreen;
 

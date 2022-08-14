@@ -5,10 +5,10 @@ export default class Search extends Component {
     render() {
         return (
             <SearchBar
-                placeholder="Search city for PUGs"
+                placeholder="Enter a location"
                 value={null}
                 // round
-                platform="android"
+                platform="default"
                 style={styles.searchContainer}
                 />
         ) 
