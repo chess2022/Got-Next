@@ -1,49 +1,20 @@
-import React, { Component } from "react";
-import { SearchBar } from "react-native-elements";
+import * as React from "react";
+import SearchBar from "react-native-elements/dist/searchbar/SearchBar-ios";
 
-export default class Search extends Component {
-    render() {
-        return (
-            <SearchBar
-                placeholder="Enter a location"
-                value={null}
-                // round
-                platform="default"
-                style={styles.searchContainer}
-                />
-        ) 
-        
-    }
-}
-
-const styles = StyleSheet.create({
-  searchContainer: {
-    borderBottomColor: "#ECECEC",
-    borderBottomWidth: 2
-  },
-  searchBar:{
-    description:{
-      fontWeight:"bold"
-    },
-    predefinedPlacesDescription:{
-      color:"red"
-    },
-    textInputContainer:{
-      backgroundColor:'#369',
-      top:50,
-      width: "80%",
-      borderWidth:0
-    },
-    textInput:{
-      marginLeft:0,
-      marginRight:0,
-      height:38,
-      color:'#5d5d5d',
-      fontSize:16,
-      borderWidth:0
-    },
-    listView:{
-      backgroundColor:'rgba(192,192,192,0.9)',
-      top:23
-    }}
-})
+export default () => {
+  const [value, setValue] = React.useState("");
+  return (
+    <SearchBar
+      platform="default"
+      loadingProps={{}}
+      onChangeText={(newVal) => setValue(newVal)}
+      onClearText={() => console.log(onClearText())}
+      placeholder="Enter city, state"
+      placeholderTextColor="#888"
+      cancelButtonTitle="Cancel"
+      cancelButtonProps={{}}
+      onCancel={() => console.log(onCancel())}
+      value={value}
+    />
+  );
+};
