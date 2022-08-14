@@ -83,8 +83,10 @@ export default function GetPugs(props) {
 
             places.push(place);
           }
+
         setLocation(location.coords);
         setPlaces(places);
+
         })
         .catch((error) => {
           console.log(error);
