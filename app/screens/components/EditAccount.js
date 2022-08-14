@@ -1,25 +1,29 @@
-import { updateCurrentUser } from 'firebase/auth';
-import React from 'react';
-import { StyleSheet, Text, View, Button } from "react-native";
-import { getAuth, updateProfile } from "../../config/firebase";
+import {
+  updateCurrentUser,
+  sendPasswordResetEmail,
+  getAuth,
+} from "firebase/auth";
+import React from "react";
+import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import { Button, Input, Text } from "react-native-elements";
+import { StatusBar } from "expo-status-bar";
+import { updateProfile } from "../../config/firebase";
+import { useAuthentication } from "../../utils/hooks/useAuthentication";
 
+function EditAccount({ navigation }) {
+  const [fullname, setFullname] = React.useState("");
+  const [imgurl, setImgurl] = React.useState("");
+  const { user } = useAuthentication();
+  const auth = getAuth();
 
-
-function EditAccount(props) {
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [imgurl, setImgurl] = useState("");
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerBackTitle: "Back To Login",
-    });
-  }, [navigation]);
+//   useLayoutEffect(() => {
+//     navigation.setOptions({
+//       headerBackTitle: "Back To Account",
+//     });
+//   }, [navigation]);
 
   const update = () => {
-    const auth = getAuth();
-    updateCurrentUser( user)
+    updateCurrentUser(user)
       .then((authUser) => {
         const user = authUser.user;
         updateProfile(user, {
@@ -32,12 +36,22 @@ function EditAccount(props) {
       .catch((error) => alert(error.message));
   };
 
+  const sendPasswordReset = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset link sent!");
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+  };
+
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light" />
 
       <Text h3 style={{ marginBottom: 50 }}>
-        Create a Got Next account
+        Update your account details
       </Text>
 
       <View style={styles.inputContainer}>
@@ -49,58 +63,49 @@ function EditAccount(props) {
           onChangeText={(text) => setFullname(text)}
         />
         <Input
-          placeholder="Email"
-          type="email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-        <Input
-          placeholder="Password"
-          secureTextEntry
-          type="password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-        />
-        <Input
           placeholder="Profile ImageURL (Optional)"
           type="text"
           value={imgurl}
           onChangeText={(text) => setImgurl(text)}
-          onSubmitEditing={register}
+        //   onSubmitEditing={register}
         />
       </View>
 
       <Button
         raised
         containerStyle={styles.button}
-        onPress={handleUpdate}
+        onPress={update}
         title="Update"
+      />
+      <Button
+        raised
+        containerStyle={styles.button}
+        onPress={sendPasswordReset}
+        title="Reset Password"
       />
       <View style={{ height: 100 }} />
     </KeyboardAvoidingView>
-  )
-};
-
+  );
+}
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    ImageDimension: {
-        width: 100,
-        height: 100,
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
-    inputContainer: {
-        width: 300,
-        marginVertical: 10,
+  ImageDimension: {
+    width: 100,
+    height: 100,
   },
-    button: {
-        width: 200,
-        marginTop: 10,
+  inputContainer: {
+    width: 300,
+    marginVertical: 10,
   },
-
-})
+  button: {
+    width: 200,
+    marginTop: 10,
+  },
+});
 
 export default EditAccount;

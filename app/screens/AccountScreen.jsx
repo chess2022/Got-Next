@@ -1,21 +1,13 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
 import { signOut, getAuth } from "../config/firebase";
+import { useNavigation } from "@react-navigation/native";
 
-// function Edit( user, id ) {
-//     navigation.navigate("EditAccount", {
-//       user,
-//       id,
-//     });
-//   }
-
-
-export default function HomeScreen({navigation}) {
-  
+export default function AccountScreen() {
   const { user } = useAuthentication();
   const auth = getAuth();
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -23,7 +15,7 @@ export default function HomeScreen({navigation}) {
       <Button
         title="Update Account"
         style={styles.button}
-        onPress={ () => { navigation.navigate({Edit})}}
+        onPress={() => navigation.navigate("Edit Account")}
       />
       <Button
         title="Sign Out"
@@ -45,5 +37,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 30,
-  }
+  },
 });

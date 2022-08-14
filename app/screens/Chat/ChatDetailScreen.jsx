@@ -96,7 +96,9 @@ function ChatDetailScreen({ navigation, route }) {
                 justifyContent: "flex-end",
               }}
               ref={scrollRef}
-              onContentSizeChange={() => scrollRef.current.scrollToEnd({animated:true})}
+              onContentSizeChange={() =>
+                scrollRef.current.scrollToEnd({ animated: true })
+              }
             >
               {messages.map((message) =>
                 message.email === auth.currentUser.email ? (
@@ -134,10 +136,10 @@ function ChatDetailScreen({ navigation, route }) {
                           right: -5,
                         }}
                       />
-                      <Text style={styles.senderText}>{message.message}</Text>
                       <Text style={styles.senderName}>
                         {message.displayName}
                       </Text>
+                      <Text style={styles.senderText}>{message.message}</Text>
                     </View>
                   </View>
                 )
@@ -154,7 +156,7 @@ function ChatDetailScreen({ navigation, route }) {
                 onSubmitEditing={sendMsg}
               />
               <TouchableOpacity onPress={sendMsg} activeOpacity={0.5}>
-                <Ionicons name="send" size="24" color="#2b68e6" />
+                <Ionicons size="26" name="send" color="#2b68e6" />
               </TouchableOpacity>
             </View>
           </>
