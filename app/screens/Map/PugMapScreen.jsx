@@ -29,7 +29,6 @@ export default function GetPugs(props) {
       // let backPerm = await Location.requestBackgroundPermissionsAsync();
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
-      setLocation(location.coords);
 
       const radMeter = 10000; //radius in meters
       const keyword = `&keyword=basketball+court`;
@@ -81,10 +80,9 @@ export default function GetPugs(props) {
             place["vicinity"] = googlePlace.vicinity;
 
             places.push(place);
-            setPlaces(places);
           }
-          // console.log(res);
-          // console.log("places one", places);
+          setPlaces(places);
+          setLocation(location.coords);
         })
         .catch((error) => {
           console.log(error);
