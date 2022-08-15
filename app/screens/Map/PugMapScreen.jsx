@@ -15,16 +15,24 @@ const apiKey = Constants.manifest?.extra?.googleApiKey;
 
 export default function GetPugs(props) {
   const [location, setLocation] = React.useState({});
+  const [newLatitude, setNewLatitude] = React.useState([]);
+  const [newLongitude, setNewLongitude] = React.useState([]);
   const [error, setError] = React.useState();
   const [places, setPlaces] = React.useState([]);
   const [value, setValue] = React.useState("");
-  const newSearch = value.replaceAll(
-    ", " || "," || " " || "  ",
-    "+"
-  );
-  console.log(newSearch);
+  const newSearch = value.replaceAll(", ", "+");
+  // console.log(newSearch);
+  const [region, setRegion] = React.useState();
+  const INITIAL_REGION = {
+    latitude: location.latitude,
+    longitude: location.longitude,
+    latitudeDelta: 0.2,
+    longitudeDelta: 0.1,
+  };
 
+  const mapRef = React.useRef(null);
 
+  // initial setting of mapped basketball courts based on user's current location
   React.useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -33,7 +41,6 @@ export default function GetPugs(props) {
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
-      // let backPerm = await Location.requestBackgroundPermissionsAsync();
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
 
@@ -59,12 +66,14 @@ export default function GetPugs(props) {
           const places = []; // This Array will contain locations received from google
           for (let googlePlace of res.results) {
             const place = {};
+            // to construct the coordinate array
             const lat = googlePlace.geometry.location.lat;
             const lng = googlePlace.geometry.location.lng;
             const coordinate = {
               latitude: lat,
               longitude: lng,
             };
+            // to construct the gallery array
             const gallery = [];
             const baseImage = "../assets/basketball.jpeg";
 
@@ -78,7 +87,7 @@ export default function GetPugs(props) {
                 gallery.push(photoUrl);
               }
             }
-
+            // the data I want from the google results
             place["coordinate"] = coordinate;
             place["placeId"] = googlePlace.place_id;
             place["placeName"] = googlePlace.name;
@@ -96,7 +105,7 @@ export default function GetPugs(props) {
         });
     })();
   }, []);
-
+    // when a location search is made in the searchbar, this new query is made to a different google api url
     React.useEffect(() => {
       (async () => {
         const keyword = `basketball+court+${newSearch}`;
@@ -106,56 +115,73 @@ export default function GetPugs(props) {
           "&key=" +
           apiKey;
 
-        fetch(url)
-          .then((res) => {
-            return res.json();
-          })
-          .then((res) => {
-            const places = []; // This Array will contain locations received from google
-            for (let googlePlace of res.results) {
-              const place = {};
-              const lat = googlePlace.geometry.location.lat;
-              const lng = googlePlace.geometry.location.lng;
-              const coordinate = {
-                latitude: lat,
-                longitude: lng,
-              };
-              const gallery = [];
-              const baseImage = "../assets/basketball.jpeg";
+          fetch(url)
+            .then((res) => {
+              return res.json();
+            })
+            .then((res) => {
+              const places = []; // This Array will contain locations received from google
+              for (let googlePlace of res.results) {
+                const place = {};
+                const lat = googlePlace.geometry.location.lat;
+                const lng = googlePlace.geometry.location.lng;
+                const coordinate = {
+                  latitude: lat,
+                  longitude: lng,
+                };
+                const gallery = [];
+                const baseImage = "../assets/basketball.jpeg";
 
-              if (googlePlace.photos) {
-                for (let photo of googlePlace.photos) {
-                  let photoUrl =
-                    googlePlace.photos.length > 0
-                      ? `https://maps.googleapis.com/maps/api/place/photo?photoreference=${googlePlace.photos[0].photo_reference}&sensor=false&maxheight=${googlePlace.photos[0].height}&maxwidth=${googlePlace.photos[0].width}&key=${apiKey}`
-                      : baseImage;
+                if (googlePlace.photos) {
+                  for (let photo of googlePlace.photos) {
+                    let photoUrl =
+                      googlePlace.photos.length > 0
+                        ? `https://maps.googleapis.com/maps/api/place/photo?photoreference=${googlePlace.photos[0].photo_reference}&sensor=false&maxheight=${googlePlace.photos[0].height}&maxwidth=${googlePlace.photos[0].width}&key=${apiKey}`
+                        : baseImage;
 
-                  gallery.push(photoUrl);
+                    gallery.push(photoUrl);
+                  }
                 }
+
+                place["coordinate"] = coordinate;
+                place["placeId"] = googlePlace.place_id;
+                place["placeName"] = googlePlace.name;
+                place["gallery"] = gallery;
+                place["rating"] = googlePlace.rating;
+                place["vicinity"] = googlePlace.vicinity;
+
+                places.push(place);
               }
+              setPlaces(places);
+              let newLatitude = places[0].coordinate.latitude;
+              let newLongitude = places[0].coordinate.longitude;
+              setNewLatitude(newLatitude);
+              setNewLongitude(newLongitude);
+              let region = {
+                latitude: newLatitude,
+                longitude: newLongitude,
+                latitudeDelta: 0.25,
+                longitudeDelta: 0.12,
+              };
+              setRegion(region);
 
-              place["coordinate"] = coordinate;
-              place["placeId"] = googlePlace.place_id;
-              place["placeName"] = googlePlace.name;
-              place["gallery"] = gallery;
-              place["rating"] = googlePlace.rating;
-              place["vicinity"] = googlePlace.vicinity;
-
-              places.push(place);
-            }
-            setPlaces(places);
-            latitude =  places[0].coordinate.latitude
-            longitude = places[0].coordinate.longitude
-            location = {"latitude":latitude, "longitude":longitude}
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })();
-        }, []);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })();
+      }, [newSearch]);
 
 
-  console.log("places", places)
+    React.useEffect(() => {
+      if (region) {
+        console.log("change region, region: ", region);
+        mapRef.current.animateToRegion(region);
+      }
+    }, [region])
+
+
+  // console.log("places", places)
   // console.log("location", location.latitude);
 
 
@@ -167,6 +193,7 @@ export default function GetPugs(props) {
         onChangeText={(newVal) => setValue(newVal)}
         onClearText={() => console.log(onClearText())}
         placeholder="Enter city, state"
+        onSubmitEditing={() => console.log(`user has entered ${value}`)}
         placeholderTextColor="#888"
         cancelButtonTitle="Cancel"
         cancelButtonProps={{}}
@@ -177,12 +204,8 @@ export default function GetPugs(props) {
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         showsUserLocation="true"
-        initialRegion={{
-          latitude: location.latitude,
-          longitude: location.longitude,
-          latitudeDelta: 0.2,
-          longitudeDelta: 0.1,
-        }}
+        initialRegion={INITIAL_REGION}
+        ref={mapRef}
       >
         {places && places.length
           ? places.map((place) => {
