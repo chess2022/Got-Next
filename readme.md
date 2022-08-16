@@ -30,7 +30,7 @@ List of stories users should experience when using your application.
 
 
 ## ERD
-![ERD](erd.png)
+![ERD]("./app/assets/erd.png")
 
 
 ## Component Architecture
@@ -56,10 +56,22 @@ ChatStack-->ChatDetail
 
 ## User Interface Mockups
 
-#### Main Page
-![Home](/app/assets/gotNext_home.png)
-![Login](/app/assets/gotNext_login.png)
-![PUG Screen](/app/assets/gotNext_map.png)
+#### Initial Page
+![Welcome](/app/assets/screenshots/welcome.png)
+
+### Signin/Signup
+![Signin](/app/assets/screenshots/signin.png.png)
+![PUG Screen](/app/assets/screenshots/signup.png)
+
+### Account
+![Account](/app/assets/screenshots/account.png)
+
+### Map
+![Map](/app/assets/screenshots/map.png)
+
+### Chat
+![Topic List](/app/assets/screenshots/topic_list.png)
+![Chat Detail](/app/assets/screenshots/chat_detail.png)
 
 
 
