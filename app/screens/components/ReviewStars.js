@@ -1,29 +1,44 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import { Icon } from "react-native-elements";
+import React from "react";
+import { StyleSheet, View, Text } from "react-native";
 
-class ReviewStars extends Component {
-  FullStar = (key) => (
-    <Icon color="#FFC300" key={key} type="ionicon" name="ios-star" size={12} />
-  );
-  HalfStar = (key) => (
-    <Icon color="#FFC300" key={key} type="ionicon" name="md-star-half" size={12} />
-  );
-  EmptyStar = (key) => (
-    <Icon color="#FFC300" key={key} type="ionicon" name="ios-star-icon" size={12} />
-  );
-  render() {
-    const { stars } = this.props;
-    let starReviews = [];
-    for (let i = 1; i <= 5; i++) {
-        let star = this.FullStar(i);
-        if (i > stars) {
-            star = this.EmptyStar(i);
-        }
-        starReviews.push(star);
+import Ionicons from "react-native-vector-icons/Ionicons";
+
+const ReviewStars = (props) => {
+  // This array will contain our star tags. We will include this
+  // array between the view tag.
+  let stars = [];
+  // Loop 5 times
+  for (var i = 1; i <= 5; i++) {
+    // set the path to filled stars
+    let name = "ios-star";
+    // If ratings is lower, set the path to unfilled stars
+    if (i > props.ratings) {
+      name = "ios-star-outline";
     }
-    return <View style={{ flex:1, flexDirection: "row" }}>{starReviews}</View>
+
+    stars.push(<Ionicons name={name} size={15} style={styles.star} key={i} />);
   }
-}
+
+  return (
+    <View style={styles.container}>
+      {stars}
+    </View>
+  );
+};
 
 export default ReviewStars;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  star: {
+    color: "#FF8C00",
+  },
+  text: {
+    fontSize: 12,
+    marginLeft: 5,
+    color: "#444",
+  },
+});

@@ -4,12 +4,13 @@ import {
   Text,
   StyleSheet,
   Dimensions,
-  Image
+  Image, 
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from "react-native-maps";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
 import SearchBar from "react-native-elements/dist/searchbar/SearchBar-ios";
+import ReviewStars from "../components/ReviewStars";
 
 const apiKey = Constants.manifest?.extra?.googleApiKey;
 
@@ -75,7 +76,7 @@ export default function GetPugs(props) {
             };
             // to construct the gallery array
             const gallery = [];
-            const baseImage = "../assets/basketball.jpeg";
+            const baseImage = require("../../assets/basketball.jpeg");
 
             if (googlePlace.photos) {
               for (let photo of googlePlace.photos) {
@@ -130,7 +131,7 @@ export default function GetPugs(props) {
                   longitude: lng,
                 };
                 const gallery = [];
-                const baseImage = "../assets/basketball.jpeg";
+                const baseImage = require("../../assets/basketball.jpeg");
 
                 if (googlePlace.photos) {
                   for (let photo of googlePlace.photos) {
@@ -148,7 +149,7 @@ export default function GetPugs(props) {
                 place["placeName"] = googlePlace.name;
                 place["gallery"] = gallery;
                 place["rating"] = googlePlace.rating;
-                place["vicinity"] = googlePlace.vicinity;
+                place["address"] = googlePlace.formatted_address;
 
                 places.push(place);
               }
@@ -175,7 +176,7 @@ export default function GetPugs(props) {
 
     React.useEffect(() => {
       if (region) {
-        console.log("change region, region: ", region);
+        // console.log("change region, region: ", region);
         mapRef.current.animateToRegion(region);
       }
     }, [region])
@@ -226,6 +227,12 @@ export default function GetPugs(props) {
                     style={{ width: Dimensions.get("window").width * 0.3 }}
                   >
                     <Text>{place.placeName}</Text>
+                    <ReviewStars
+                      ratings={place.rating}
+                    />
+                    <Text>
+                      {place.vicinity ? place.vicinity : place.address}
+                    </Text>
                   </Callout>
                 </Marker>
               );
