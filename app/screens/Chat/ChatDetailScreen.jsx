@@ -90,10 +90,12 @@ function ChatDetailScreen({ navigation, route }) {
           {/* all the sent messages */}
           <>
             <ScrollView
-              style={{ bottom: 60, top: 5 }}
+              style={{ bottom: 150, top: 0 }}
               contentContainerStyle={{
-                paddingTop: 15,
+                paddingTop: 100,
                 justifyContent: "flex-end",
+                bottom: 80,
+                paddingBottom: 15
               }}
               ref={scrollRef}
               onContentSizeChange={() =>
@@ -177,7 +179,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 15,
-    bottom: 50,
+    bottom: 55,
+    backgroundColor: 'white'
   },
   textInput: {
     bottom: 0,
