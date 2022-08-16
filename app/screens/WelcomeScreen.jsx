@@ -43,12 +43,11 @@ const styles = StyleSheet.create({
   loginButton: {
     position: "absolute",
     alignItems: "center",
-    height: 80,
-    paddingTop: 30,
-    bottom: 25,
-    left: 20,
-    right: 20,
-    backgroundColor: "#fff",
+    height: 50,
+    paddingTop: 15,
+    bottom: 45,
+    width: 150,
+    backgroundColor: "#b0521c",
     borderRadius: 15,
     shadowColor: "grey",
     shadowOffset: {
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loginText: {
-    color: "#fc5603",
+    color: "#fff",
     fontSize: 18,
     textTransform: "uppercase",
   },
