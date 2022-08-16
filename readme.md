@@ -62,8 +62,8 @@ ChatStack-->ChatDetail
 ![Welcome](/app/assets/screenshots/welcome.png)
 
 ### Signin/Signup
-![Signin](/app/assets/screenshots/signin.png.png)
-![PUG Screen](/app/assets/screenshots/signup.png)
+![Sign In](/app/assets/screenshots/signin.png)
+![Sign Up](/app/assets/screenshots/signup.png)
 
 ### Account
 ![Account](/app/assets/screenshots/account.png)
