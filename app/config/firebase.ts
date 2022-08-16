@@ -15,6 +15,8 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   signOut,
+  sendPasswordResetEmail,
+  updateCurrentUser
 } from 'firebase/auth'
 import Constants from 'expo-constants';
 
@@ -46,6 +48,8 @@ export {
   serverTimestamp,
   query,
   orderBy,
+  sendPasswordResetEmail,
+  updateCurrentUser
 };
 
 export default app;

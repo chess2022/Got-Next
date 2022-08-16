@@ -1,73 +1,50 @@
-import {
-  updateCurrentUser,
-  sendPasswordResetEmail,
-  getAuth,
-} from "firebase/auth";
 import React from "react";
 import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
 import { Button, Input, Text } from "react-native-elements";
 import { StatusBar } from "expo-status-bar";
-import { updateProfile } from "../../config/firebase";
-import { useAuthentication } from "../../utils/hooks/useAuthentication";
+import { getAuth, updateProfile } from "../../config/firebase";
 
 function EditAccount({ navigation }) {
-  const [fullname, setFullname] = React.useState("");
-  const [imgurl, setImgurl] = React.useState("");
-  const { user } = useAuthentication();
   const auth = getAuth();
-
-//   useLayoutEffect(() => {
-//     navigation.setOptions({
-//       headerBackTitle: "Back To Account",
-//     });
-//   }, [navigation]);
+  const [value, setValue] = React.useState({
+    displayName: '',
+    photoUrl: '',
+    error: ''
+  })
 
   const update = () => {
-    updateCurrentUser(user)
-      .then((authUser) => {
-        const user = authUser.user;
-        updateProfile(user, {
-          displayName: fullname,
-          photoURL: imgurl,
-        })
-          .then(() => console.log("Profile Updated!"))
-          .catch((error) => console.log(error.message));
-      })
-      .catch((error) => alert(error.message));
-  };
-
-  const sendPasswordReset = async (email) => {
-    try {
-      await sendPasswordResetEmail(auth, email);
-      alert("Password reset link sent!");
-    } catch (err) {
-      console.error(err);
-      alert(err.message);
+    const auth = getAuth();
+      updateProfile(auth.currentUser, {
+        displayName: value.displayName,
+        photoURL: value.photoUrl,
+      }).then(() => {
+        console.log("Profile updated")
+        navigation.navigate("Account Details");
+      }).catch((error) => {
+        console.log(error.message)
+      });
     }
-  };
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="light" />
 
-      <Text h3 style={{ marginBottom: 50 }}>
+      <Text h4 style={{ marginBottom: 50 }}>
         Update your account details
       </Text>
-
       <View style={styles.inputContainer}>
         <Input
           placeholder="Fullname"
           autoFocus
           type="text"
-          value={fullname}
-          onChangeText={(text) => setFullname(text)}
+          value={value.displayName}
+          onChangeText={(text) => setValue({ ...value, displayName: text })}
         />
         <Input
           placeholder="Profile ImageURL (Optional)"
           type="text"
-          value={imgurl}
-          onChangeText={(text) => setImgurl(text)}
-        //   onSubmitEditing={register}
+          value={value.photoUrl}
+          onChangeText={(text) => setValue({ ...value, photoUrl: text })}
         />
       </View>
 
@@ -77,12 +54,12 @@ function EditAccount({ navigation }) {
         onPress={update}
         title="Update"
       />
-      <Button
+      {/* <Button
         raised
         containerStyle={styles.button}
         onPress={sendPasswordReset}
         title="Reset Password"
-      />
+      /> */}
       <View style={{ height: 100 }} />
     </KeyboardAvoidingView>
   );

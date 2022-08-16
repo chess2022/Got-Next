@@ -11,7 +11,6 @@ import Constants from "expo-constants";
 import * as Location from "expo-location";
 import SearchBar from "react-native-elements/dist/searchbar/SearchBar-ios";
 import ReviewStars from "../components/ReviewStars";
-import {WebView} from "react-native-webview";
 
 const apiKey = Constants.manifest?.extra?.googleApiKey;
 
@@ -177,13 +176,13 @@ export default function GetPugs(props) {
 
     React.useEffect(() => {
       if (region) {
-        console.log("change region, region: ", region);
+        // console.log("change region, region: ", region);
         mapRef.current.animateToRegion(region);
       }
     }, [region])
 
 
-  console.log("places", places)
+  // console.log("places", places)
   // console.log("location", location.latitude);
 
 

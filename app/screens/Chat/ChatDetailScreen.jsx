@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { Avatar } from "react-native-elements";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
@@ -65,7 +65,7 @@ function ChatDetailScreen({ navigation, route }) {
               uri: messages[0]?.photoURL,
             }}
           />
-          <Text style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}>
+          <Text style={{ color: "black", marginLeft: 10, fontWeight: "bold" }}>
             {route.params.chatName}
           </Text>
         </View>
@@ -90,7 +90,7 @@ function ChatDetailScreen({ navigation, route }) {
           {/* all the sent messages */}
           <>
             <ScrollView
-              style={{ bottom: 92 }}
+              style={{ bottom: 60, top: 5 }}
               contentContainerStyle={{
                 paddingTop: 15,
                 justifyContent: "flex-end",
@@ -129,7 +129,7 @@ function ChatDetailScreen({ navigation, route }) {
                         size={30}
                         position="absolute"
                         bottom={-15}
-                        right={-5}
+                        left={-5}
                         containerStyle={{
                           position: "absolute",
                           bottom: -15,
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 15,
-    bottom: 80,
+    bottom: 50,
   },
   textInput: {
     bottom: 0,
