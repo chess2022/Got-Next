@@ -196,9 +196,9 @@ export default function GetPugs(props) {
         placeholder="Enter city, state"
         onSubmitEditing={() => console.log(`user has entered ${value}`)}
         placeholderTextColor="#888"
-        cancelButtonTitle="Cancel"
-        cancelButtonProps={{}}
-        onCancel={() => console.log(onCancel())}
+        // cancelButtonTitle="Cancel"
+        // cancelButtonProps={{}}
+        // onCancel={() => console.log(onCancel())}
         value={value}
       />
       <MapView
