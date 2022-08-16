@@ -30,7 +30,7 @@ List of stories users should experience when using your application.
 
 
 ## ERD
-![ERD]("/app/assets/erd.png")
+![ERD](/app/assets/erd.png)
 
 
 ## Component Architecture
