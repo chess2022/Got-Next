@@ -1,6 +1,6 @@
 # Got Next
 
-#### When my oldest moved to Seattle, he didn't know where to go to play a pick-up game. He thought it would be great to have an app to find all the places nearby he could play. This app was created as a simple solution to his idea. 
+#### When my oldest moved to Seattle, he didn't know where to go to play a pick-up game. He asked, "Wouldn't it be great if there was an app for this?" During my time enrolled in a coding bootcamp at GA, I knew one of my projects would be solving his dilemma. This app was created as a simple solution to his idea. 
 #### Currently working on iOS only
 
 **Summary**
