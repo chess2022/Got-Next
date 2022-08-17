@@ -21,7 +21,7 @@ export default function GetPugs(props) {
   const [error, setError] = React.useState();
   const [places, setPlaces] = React.useState([]);
   const [value, setValue] = React.useState("");
-  const newSearch = value.replaceAll(", ", "+");
+  const newSearch = value.replace(", ", "+");
   // console.log(newSearch);
   const [region, setRegion] = React.useState();
   const INITIAL_REGION = {
