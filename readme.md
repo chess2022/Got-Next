@@ -82,13 +82,14 @@ ChatStack-->ChatDetail
 
 ## Future Releases
 
-- Android compatibility
-- Web version
+- Add timeout to wait for user to finish typing before search begins
 - Image upload from camera roll for profile pic
 - Image upload for chats
 - Animated scrolling with map location details
 - Private chats 
 - List of public chats to join
+- Android compatibility
+- Web version
 
 
 
