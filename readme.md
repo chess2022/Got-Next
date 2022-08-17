@@ -80,7 +80,15 @@ ChatStack-->ChatDetail
 ![Chat Detail](/app/assets/screenshots/chat_detail.png)
 
 
+## Future Releases
 
+- Android compatibility
+- Web version
+- Image upload from camera roll for profile pic
+- Image upload for chats
+- Animated scrolling with map location details
+- Private chats 
+- List of public chats to join
 
 
 
