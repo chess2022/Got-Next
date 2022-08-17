@@ -9,7 +9,8 @@
 | Project Name | Got Next |
 | Description | An app created in React Native for finding local pick-up games (PUGs) and connecting with other players. |
 | Developers | [Cheryl](https://github.com/chess2022) |
-| Live Website | none yet |
+| Live | [Expo Go](exp://exp.host/@caweigel007/GotNext?release-channel=default) |
+| Contact | [Email Me](mailto:cheryl.weigel@gmail.com) for test access to the app |
 
 
 ## User Stories
