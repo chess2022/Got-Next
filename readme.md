@@ -39,7 +39,7 @@ List of stories users should experience when using your application.
 ![ERD](/app/assets/erd.png)
 
 
-## Component Architecture
+## Site Architecture
 
 ```mermaid
 flowchart LR
