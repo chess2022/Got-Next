@@ -11,6 +11,7 @@
 | Developers | [Cheryl](https://github.com/chess2022) |
 | Live | [Expo Go](exp://exp.host/@caweigel007/GotNext?release-channel=default) |
 | Contact | [Email Me](mailto:cheryl.weigel@gmail.com) for test access to the app |
+| Demo Video | [Got Next Demo](/app/assets/GotNext_demo_vid.mp4)
 
 
 ## User Stories
