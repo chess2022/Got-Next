@@ -9,7 +9,7 @@
 | Project Name | Got Next |
 | Description | An app created in React Native for finding local pick-up games (PUGs) and connecting with other players. |
 | Developers | [Cheryl](https://github.com/chess2022) |
-| Live | [Expo Go](exp://exp.host/@caweigel007/GotNext?release-channel=default) |
+| Live | [Expo Go](https://expo.dev/@caweigel007/GotNext?serviceType=classic&distribution=expo-go) |
 | Contact | [Email Me](mailto:cheryl.weigel@gmail.com) for test access to the app |
 | Demo Video | [Got Next Demo](/app/assets/GotNext_demo_vid.mp4)
 
@@ -40,7 +40,7 @@ List of stories users should experience when using your application.
 ![ERD](/app/assets/erd.png)
 
 
-## Component Architecture
+## Site Architecture
 
 ```mermaid
 flowchart LR
@@ -83,13 +83,14 @@ ChatStack-->ChatDetail
 
 ## Future Releases
 
-- Android compatibility
-- Web version
+- Add timeout to wait for user to finish typing before search begins
 - Image upload from camera roll for profile pic
 - Image upload for chats
 - Animated scrolling with map location details
 - Private chats 
 - List of public chats to join
+- Android compatibility
+- Web version
 
 
 
